@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCassignment1", "MVCassignment1\MVCassignment1.csproj", "{0652E873-E744-4FC4-A4AD-AB102628DE60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCassignment2", "MVCassignment1\MVCassignment2.csproj", "{0652E873-E744-4FC4-A4AD-AB102628DE60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
