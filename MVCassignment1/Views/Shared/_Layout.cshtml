@@ -1,0 +1,50 @@
+﻿@using MVCassignment1.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                &nbsp;
+                <!-- @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" }) -->
+                <a class="navbar-brand" id="menu" href="@Url.Action("Index", "Home")"><img src="http://eu.ironman.com/media/backgrounds/logo_235x80.png" id="logo_img" /></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("index", "Index", "Home")</li>
+                    <li>@Html.ActionLink("about", "About", "Home")</li>
+                    <li>@Html.ActionLink("contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("projects", "Projects", "Home")</li>
+                    <li><a href="FeverCheck">FeverCheck</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+
+            <p>&copy; @MyOwnDate.Date - V3D</p>
+            <!--            <p>&copy; @DateTime.Now.Year - V3D</p> -->
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
