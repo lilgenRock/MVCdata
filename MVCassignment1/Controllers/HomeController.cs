@@ -54,34 +54,27 @@ namespace MVCassignment1.Controllers
             ViewBag.msgC = "";
             ViewBag.msgF = "";
             inputTemp = inputTemp.Replace('.',',');
-            inputValueOk = float.TryParse(inputTemp, out float test);
-            if (inputValueOk)
+
+            inputValueOk = FeverCheckModel.CheckInput(inputTemp);
+            if (inputValueOk)   // if input ok then calc stuff and set message
             {
-                if (scale == "Fahrenheit")
+                tempC = FeverCheckModel.CalcCelsius(inputTemp, scale);
+                tempF = FeverCheckModel.CalcFahrenheit(tempC);
+                msg   = FeverCheckModel.GetMessage(tempC);
+                ViewBag.msgC = "Your temp is " + tempC.ToString().Replace(',', '.') + " Celsius. " + msg;
+                ViewBag.msgF = "Your temp is " + tempF.ToString().Replace(',', '.') + " Fahrenheit. " + msg;
+                if(scale == "Fahrenheit")
                 {
-                    tempC = (float.Parse(inputTemp) - 32) * 5 / 9;
                     ViewBag.checkedF = "checked";
                 }
                 else
                 {
-                    tempC = float.Parse(inputTemp);
                     ViewBag.checkedC = "checked";
                 }
-
-                if (tempC > 37.2)
-                {
-                    msg = "You are hot hot hot!";
-                }
-                else if (tempC < 36.1)
-                {
-                    msg = "You are cool!";
-                }else
-                {
-                    msg = "You are fine!";
-                }
-                tempF = (9F / 5F * tempC) + 32;
-                ViewBag.msgC = "Your temp is " + tempC.ToString().Replace(',', '.') + " Celsius. " + msg;
-                ViewBag.msgF = "Your temp is " + tempF.ToString().Replace(',', '.') + " Fahrenheit. " + msg;
+            }
+            else            // if input NOT ok then set error msg
+            {
+                ViewBag.msg = msg;
             }
             return View();
         }
