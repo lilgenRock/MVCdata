@@ -12,5 +12,8 @@ namespace MVCassignment1.Models
         public decimal Rate { get; set; }
         public int Year { get; set; }
 
+        public float Temp { get; set; }
+
+
     }
 }

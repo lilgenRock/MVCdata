@@ -1,30 +1,28 @@
-﻿
+﻿@model MVCassignment1.Models.FeverCheckModel
 @{
     ViewBag.Title = "FeverCheck";
+    if (ViewBag.checkedC == "checked")
+    {
+        ViewBag.msg = ViewBag.msgC;
+    }
+    else if (ViewBag.checkedF == "checked")
+    {
+        ViewBag.msg = ViewBag.msgF;
+    }
+    else
+    {
+        ViewBag.checkedC = "checked";
+    }
+}
+<h2>FeverCheck</h2>
+<form action="@Url.Action("FeverCheck", "Home")" method="post">
+    <input type="text" name="inputTemp" value="" placeholder="Enter your temp here" /><br />
+    <input type="radio" name="scale" value="Celsius" @ViewBag.checkedC onclick="document.getElementById('temp').innerHTML = '@ViewBag.msgC'" /> Celsius
+    <input type="radio" name="scale" value="Fahrenheit" @ViewBag.checkedF onclick="document.getElementById('temp').innerHTML = '@ViewBag.msgF'" /> Fahrenheit
+    <input type="submit" value="Send" />
+</form>
+@if (ViewBag.msg != null)
+{
+    <h3><span id="temp">@ViewBag.msg  </span></h3>
 }
 
-<h2>FeverCheck</h2>
-
-<fieldset>
-    <legend>Calculate Simple Interest</legend>
-    @using (Ajax.BeginForm("CalculateSimpleInterestResult", "CalculateSimpleInterest",
-                            new AjaxOptions { UpdateTargetId = "divInterestDeatils" }))
-    {
-        <div id="divInterestDeatils"></div>
-        <ol>
-            <li>
-                @Html.Label("Amount")
-                @Html.TextBox("txtAmount")
-            </li>
-            <li>
-                @Html.Label("Rate")
-                @Html.TextBox("txtRate")
-            </li>
-            <li>
-                @Html.Label("Year")
-                @Html.TextBox("txtYear")
-            </li>
-        </ol>
-        <button>Calculate</button>
-    }
-</fieldset> 
