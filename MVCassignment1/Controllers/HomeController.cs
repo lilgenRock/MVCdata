@@ -34,6 +34,33 @@ namespace MVCassignment1.Controllers
             return View();
         }
 
+        // GET: GuessingGame
+        [HttpGet]
+        public ActionResult GuessingGame()
+        {
+            Random rnd = new Random();
+            GuessingGameModel model = new GuessingGameModel();
+            if (Session["randomNumber"] == null || Session["guessingCounter"] == null)
+            {
+                Session["randomNumber"] = rnd.Next(1, 101);
+                Session["guessingCounter"] = 0;
+                Session["guessingList"] = "";
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult GuessingGame(string inputGuess)
+        {
+            string guessStr = GuessingGameModel.EvaluateGuess(Int32.Parse(inputGuess), (int)Session["randomNumber"]);
+
+            Session["guessingCounter"] =  (int)Session["guessingCounter"] + 1;
+            Session["guessingList"] += inputGuess+" ";
+            ViewBag.msg = "<h4>Guessing history: "+ Session["guessingList"] + "</h4><h4>Your guess " + inputGuess + " was " + guessStr + ". Counter: " + Session["guessingCounter"] + ". Please try again!</h4>";
+            return View();
+        }
+
         // GET: FeverCheck
         [HttpGet]
         public ActionResult FeverCheck()

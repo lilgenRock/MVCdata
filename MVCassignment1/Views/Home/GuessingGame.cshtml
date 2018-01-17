@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "GuessingGame";
+}
+
+<h2>GuessingGame</h2>
+@ViewBag.msg
+
+
+<form action="@Url.Action("GuessingGame", "Home")" method="post">
+    <input type="text" name="inputGuess" value="" placeholder="Enter your guess here" />
+    <input type="submit" value="Send" />
+    <input type="hidden" value="@Session["randomNumber"]" id="randNo" />
+</form>

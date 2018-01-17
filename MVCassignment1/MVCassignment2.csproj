@@ -109,6 +109,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FeverCheckModel.cs" />
+    <Compile Include="Models\GuessingGameModel.cs" />
     <Compile Include="Models\MyOwnDate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -126,6 +127,7 @@
     <Content Include="Views\Home\Projects.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\FeverCheck.cshtml" />
+    <Content Include="Views\Home\GuessingGame.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
