@@ -1,14 +1,25 @@
 ﻿
 @{
     ViewBag.Title = "GuessingGame";
+    ViewBag.Counter = Session["guessingCounter"];
 }
 
 <h2>GuessingGame</h2>
-@ViewBag.msg
-
+@Html.Raw(ViewBag.msg)
 
 <form action="@Url.Action("GuessingGame", "Home")" method="post">
+    @if (ViewBag.Counter == 0)
+    {
+    <input type="text" name="inputName" value="" placeholder="@ViewBag.name" />
+    }
     <input type="text" name="inputGuess" value="" placeholder="Enter your guess here" />
     <input type="submit" value="Send" />
     <input type="hidden" value="@Session["randomNumber"]" id="randNo" />
 </form>
+
+@if(ViewBag.HighScore != null)
+{
+<div>
+    @Html.Raw(ViewBag.HighScore)
+</div>
+}

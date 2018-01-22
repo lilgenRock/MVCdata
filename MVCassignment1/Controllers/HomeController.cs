@@ -45,19 +45,51 @@ namespace MVCassignment1.Controllers
                 Session["randomNumber"] = rnd.Next(1, 101);
                 Session["guessingCounter"] = 0;
                 Session["guessingList"] = "";
+                ViewBag.name = "Enter your name here";
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult GuessingGame(string inputGuess)
+        public ActionResult GuessingGame(string inputGuess, string inputName)
         {
             string guessStr = GuessingGameModel.EvaluateGuess(Int32.Parse(inputGuess), (int)Session["randomNumber"]);
-
             Session["guessingCounter"] =  (int)Session["guessingCounter"] + 1;
             Session["guessingList"] += inputGuess+" ";
-            ViewBag.msg = "<h4>Guessing history: "+ Session["guessingList"] + "</h4><h4>Your guess " + inputGuess + " was " + guessStr + ". Counter: " + Session["guessingCounter"] + ". Please try again!</h4>";
+            if (inputName != null && inputName.Length > 0)
+            {
+                Session["guessingName"] = inputName;
+            }
+            ViewBag.msg = "<h5>"+ Session["guessingName"] + "'s guessing history: " + Session["guessingList"] + " (Guesses: " + Session["guessingCounter"] + ")</h5><h5>Your guess " + inputGuess + " was " + guessStr + "</h5>";
+            if (Int32.Parse(inputGuess) == (int)Session["randomNumber"])
+            {
+                Random rnd = new Random();
+                ViewBag.msg += "<h5>Well done!</h5><h5>Can you beat that score? A new number has been generated for you to guess.</h5>";
+                ViewBag.name = Session["guessingName"];
+                if (Request.Cookies["HighScore"] == null)
+                {
+                    HttpCookie HighScore = new HttpCookie("HighScore");
+                    HighScore["hs"] = Session["guessingCounter"] + "=" + Session["guessingName"];
+                    Response.Cookies.Add(HighScore);
+                }
+                else
+                {
+                    HttpCookie HighScore = Request.Cookies["HighScore"];
+                    HighScore["hs"] += "|" + Session["guessingCounter"] + "=" + Session["guessingName"];
+                    Response.Cookies.Add(HighScore);
+                }
+                ViewBag.HighScore = GuessingGameModel.FormatHighScoreList(Request.Cookies["HighScore"]["hs"]);
+                //ViewBag.HighScore = Request.Cookies["HighScore"]["hs"];
+                Session["randomNumber"] = rnd.Next(1, 101); // This is DRY. How can I do a session-starter-function?
+                Session["guessingCounter"] = 0;
+                Session["guessingList"] = "";
+
+            }
+            else
+            {
+                ViewBag.msg += "<h5>Please try again!</h5>";
+            }
             return View();
         }
 
@@ -105,5 +137,6 @@ namespace MVCassignment1.Controllers
             }
             return View();
         }
+        
     }
 }
