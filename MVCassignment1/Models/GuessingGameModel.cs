@@ -35,6 +35,14 @@ namespace MVCassignment1.Models
             }
             return result;
         }
+
+        public static string SortAndInsertHighScore(string cookie, string score, string name)
+        {
+            string result = "";
+            string[] arrHighScores = cookie.Split('|');
+
+            return result;
+        }
 /*
         public static void StartNewGuessingGame()
         {

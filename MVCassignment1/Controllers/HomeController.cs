@@ -62,7 +62,7 @@ namespace MVCassignment1.Controllers
                 Session["guessingName"] = inputName;
             }
             ViewBag.msg = "<h5>"+ Session["guessingName"] + "'s guessing history: " + Session["guessingList"] + " (Guesses: " + Session["guessingCounter"] + ")</h5><h5>Your guess " + inputGuess + " was " + guessStr + "</h5>";
-            if (Int32.Parse(inputGuess) == (int)Session["randomNumber"])
+            if (Int32.Parse(inputGuess) == (int)Session["randomNumber"])    // if player guessed correctly
             {
                 Random rnd = new Random();
                 ViewBag.msg += "<h5>Well done!</h5><h5>Can you beat that score? A new number has been generated for you to guess.</h5>";
@@ -73,10 +73,11 @@ namespace MVCassignment1.Controllers
                     HighScore["hs"] = Session["guessingCounter"] + "=" + Session["guessingName"];
                     Response.Cookies.Add(HighScore);
                 }
-                else
+                else                        
                 {
                     HttpCookie HighScore = Request.Cookies["HighScore"];
                     HighScore["hs"] += "|" + Session["guessingCounter"] + "=" + Session["guessingName"];
+                    //HighScore["hs"] = GuessingGameModel.SortAndInsertHighScore(HighScore["hs"], (string)Session["guessingCounter"], (string)Session["guessingName"]);
                     Response.Cookies.Add(HighScore);
                 }
                 ViewBag.HighScore = GuessingGameModel.FormatHighScoreList(Request.Cookies["HighScore"]["hs"]);
@@ -86,7 +87,7 @@ namespace MVCassignment1.Controllers
                 Session["guessingList"] = "";
 
             }
-            else
+            else                                    // incorrect guess
             {
                 ViewBag.msg += "<h5>Please try again!</h5>";
             }
