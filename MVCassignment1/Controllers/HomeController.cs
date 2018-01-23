@@ -67,21 +67,19 @@ namespace MVCassignment1.Controllers
                 Random rnd = new Random();
                 ViewBag.msg += "<h5>Well done!</h5><h5>Can you beat that score? A new number has been generated for you to guess.</h5>";
                 ViewBag.name = Session["guessingName"];
-                if (Request.Cookies["HighScore"] == null)
+                if (Request.Cookies["HighScore"] == null)   // if this is the first score, then highscore cookie is empty so we create one.
                 {
                     HttpCookie HighScore = new HttpCookie("HighScore");
                     HighScore["hs"] = Session["guessingCounter"] + "=" + Session["guessingName"];
                     Response.Cookies.Add(HighScore);
                 }
-                else                        
+                else                                        // highscore cookie exists and we add a new score in the right position in the string
                 {
                     HttpCookie HighScore = Request.Cookies["HighScore"];
-                    HighScore["hs"] += "|" + Session["guessingCounter"] + "=" + Session["guessingName"];
-                    //HighScore["hs"] = GuessingGameModel.SortAndInsertHighScore(HighScore["hs"], (string)Session["guessingCounter"], (string)Session["guessingName"]);
+                    HighScore["hs"] = GuessingGameModel.SortAndInsertHighScore(HighScore["hs"], ""+Session["guessingCounter"], ""+Session["guessingName"]);
                     Response.Cookies.Add(HighScore);
                 }
                 ViewBag.HighScore = GuessingGameModel.FormatHighScoreList(Request.Cookies["HighScore"]["hs"]);
-                //ViewBag.HighScore = Request.Cookies["HighScore"]["hs"];
                 Session["randomNumber"] = rnd.Next(1, 101); // This is DRY. How can I do a session-starter-function?
                 Session["guessingCounter"] = 0;
                 Session["guessingList"] = "";

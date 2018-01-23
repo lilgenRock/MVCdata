@@ -39,18 +39,22 @@ namespace MVCassignment1.Models
         public static string SortAndInsertHighScore(string cookie, string score, string name)
         {
             string result = "";
+            string separator = "";
+            bool newScoreInserted = false;
             string[] arrHighScores = cookie.Split('|');
-
+            foreach (string element in arrHighScores)
+            {
+//              if (newScoreInserted == false && Int32.Parse(element.Substring(0, element.IndexOf('='))) >= Int32.Parse(score)) // if correct position found for new score, then insert it in cookie string
+                if (newScoreInserted == false && Int32.Parse(element.Substring(0, 1)) >= Int32.Parse(score)) // if correct position found for new score, then insert it in cookie string
+                {
+                    result += separator + score + "=" + name;    // separator must be "" here in the first loop or else there will be trouble
+                    newScoreInserted = true;
+                    separator = "|";
+                }
+                result += separator + element;
+                separator = "|";
+            }
             return result;
         }
-/*
-        public static void StartNewGuessingGame()
-        {
-            Random rnd = new Random();
-            Session["randomNumber"] = rnd.Next(1, 101);
-            Session["guessingCounter"] = 0;
-            Session["guessingList"] = "";
-        }
-        */
     }
 }
