@@ -83,7 +83,6 @@ namespace MVCassignment1.Controllers
                 Session["randomNumber"] = rnd.Next(1, 101); // This is DRY. How can I do a session-starter-function?
                 Session["guessingCounter"] = 0;
                 Session["guessingList"] = "";
-
             }
             else                                    // incorrect guess
             {

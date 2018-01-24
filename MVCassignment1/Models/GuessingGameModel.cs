@@ -44,8 +44,7 @@ namespace MVCassignment1.Models
             string[] arrHighScores = cookie.Split('|');
             foreach (string element in arrHighScores)
             {
-//              if (newScoreInserted == false && Int32.Parse(element.Substring(0, element.IndexOf('='))) >= Int32.Parse(score)) // if correct position found for new score, then insert it in cookie string
-                if (newScoreInserted == false && Int32.Parse(element.Substring(0, 1)) >= Int32.Parse(score)) // if correct position found for new score, then insert it in cookie string
+              if (newScoreInserted == false && Int32.Parse(element.Substring(0, element.IndexOf('='))) >= Int32.Parse(score)) // if correct position found for new score, then insert it in cookie string
                 {
                     result += separator + score + "=" + name;    // separator must be "" here in the first loop or else there will be trouble
                     newScoreInserted = true;
@@ -54,6 +53,11 @@ namespace MVCassignment1.Models
                 result += separator + element;
                 separator = "|";
             }
+            if (!newScoreInserted)      // if you have the worst score(highest) then add it here after the loop is done
+            {
+                result += separator + score + "=" + name; 
+            }
+
             return result;
         }
     }
