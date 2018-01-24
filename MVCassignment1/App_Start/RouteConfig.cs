@@ -23,6 +23,11 @@ namespace MVCassignment1
                 defaults: new { controller = "Home", action = "GuessingGame" }
             );
             routes.MapRoute(
+                name: "People",
+                url: "People",
+                defaults: new { controller = "Home", action = "People" }
+            );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

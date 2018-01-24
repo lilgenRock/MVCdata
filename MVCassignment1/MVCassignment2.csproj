@@ -111,6 +111,7 @@
     <Compile Include="Models\FeverCheckModel.cs" />
     <Compile Include="Models\GuessingGameModel.cs" />
     <Compile Include="Models\MyOwnDate.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +129,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\FeverCheck.cshtml" />
     <Content Include="Views\Home\GuessingGame.cshtml" />
+    <Content Include="Views\Home\People.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

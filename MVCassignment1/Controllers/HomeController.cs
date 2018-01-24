@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using MVCassignment1.Models;
+using MVCassignment2.Models;
 
 namespace MVCassignment1.Controllers
 {
@@ -33,6 +34,28 @@ namespace MVCassignment1.Controllers
         {
             return View();
         }
+
+        // GET: People
+        public ActionResult People()
+        {
+            List<Person> people = new List<Person>
+      {
+        new Person
+        {
+            Id = 1, Name = "Nisse", PhoneNumber = "0736-12345677", City = "Växjö" 
+        },
+        new Person
+        {
+            Id = 2, Name = "Lasse", PhoneNumber = "0708-8888888", City = "Stockholm"
+        },
+        new Person
+        {
+            Id = 3, Name = "Andreas", PhoneNumber = "0736-14151617", City = "Alvesta"
+        }
+    };
+            return View(people);
+        }
+
 
         // GET: GuessingGame
         [HttpGet]
