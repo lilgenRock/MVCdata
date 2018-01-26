@@ -15,5 +15,19 @@ namespace MVCassignment2.Models
 
         public string City { get; set; }
 
+
+      /*  public static bool LookForSearchString(string s)
+        {
+            if ((s.Contains() > 5) &&
+                       (s.Substring(s.Length - 6).ToLower() == "saurus"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        */
     }
 }

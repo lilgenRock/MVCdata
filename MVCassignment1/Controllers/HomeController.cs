@@ -35,27 +35,58 @@ namespace MVCassignment1.Controllers
             return View();
         }
 
-        // GET: People
-        public ActionResult People()
+        [HttpPost]
+        public ActionResult People(string SearchString)
         {
-            List<Person> people = new List<Person>
-      {
-        new Person
-        {
-            Id = 1, Name = "Nisse", PhoneNumber = "0736-12345677", City = "Växjö" 
-        },
-        new Person
-        {
-            Id = 2, Name = "Lasse", PhoneNumber = "0708-8888888", City = "Stockholm"
-        },
-        new Person
-        {
-            Id = 3, Name = "Andreas", PhoneNumber = "0736-14151617", City = "Alvesta"
+            List<Person> people = (List<Person>)Session["people"];
+            //List<Person> sortedPeople = people.Where( => SearchString)
+
+           
+            return View();
         }
-    };
+
+
+        [HttpPost]
+        public ActionResult People(string Name, string PhoneNumber, string City)
+        {
+            // List<Person> people = new List<Person>();
+            List<Person> people = (List<Person>)Session["people"];
+
+            if (Name != "" && Name != null)
+            {
+                people.Add(new Person
+                {
+                    Id = people.Count + 1,
+                    Name = Name,
+                    PhoneNumber = PhoneNumber,
+                    City = City
+                });
+            }
+            Session["people"] = people;
             return View(people);
         }
 
+
+        // GET: People
+        [HttpGet]
+        public ActionResult People()
+        {
+            List<Person> people = new List<Person>();
+                people.Add(new Person { Id = 1, Name = "Nisse", PhoneNumber = "0736-12345677", City = "Växjö" });
+                people.Add(new Person { Id = 2, Name = "Lasse", PhoneNumber = "0708-8888888", City = "Stockholm" });
+                people.Add(new Person { Id = 3, Name = "Andreas", PhoneNumber = "0736-14151617", City = "Alvesta" });
+
+            Session["people"] = people;
+            return View(people);
+        }
+
+        [HttpPost]
+        public ActionResult AddPerson(string Name, string PhoneNumber, string City)
+        {
+
+//            return RedirectToAction("People", "Home");
+            return RedirectToAction("People", "Home", new { aName=Name, aPhoneNumber=PhoneNumber, aCity=City });
+        }
 
         // GET: GuessingGame
         [HttpGet]
