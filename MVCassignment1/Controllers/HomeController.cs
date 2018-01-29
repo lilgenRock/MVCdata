@@ -36,27 +36,31 @@ namespace MVCassignment1.Controllers
         }
 
         [HttpPost]
-        public ActionResult People(string SearchString)
+        public ActionResult Search(string SearchString)
         {
             List<Person> people = (List<Person>)Session["people"];
-            //List<Person> sortedPeople = people.Where( => SearchString)
+            List<Person> peopleSearchResult = people.Where(p => p.Name.Contains(SearchString) || p.City.Contains(SearchString)).ToList();
+            Session["peopleSearchResult"] = peopleSearchResult;
+            Session["peopleSearchString"] = SearchString;
+            return RedirectToAction("People", "Home");
 
-           
-            return View();
         }
 
 
         [HttpPost]
         public ActionResult People(string Name, string PhoneNumber, string City)
         {
-            // List<Person> people = new List<Person>();
             List<Person> people = (List<Person>)Session["people"];
-
+            int newId = 0;
             if (Name != "" && Name != null)
             {
+                if(people.Count > 0)        // if people exist in list find the largest id and give new person that value + 1
+                {
+                    newId = people.Max(p => p.Id) + 1;
+                }
                 people.Add(new Person
                 {
-                    Id = people.Count + 1,
+                    Id = newId,
                     Name = Name,
                     PhoneNumber = PhoneNumber,
                     City = City
@@ -66,17 +70,77 @@ namespace MVCassignment1.Controllers
             return View(people);
         }
 
+        public ActionResult SortByName()
+        {
+            List<Person> people = (List<Person>)Session["people"];
+            if(Session["peopleNameSorted"] == null || (string)Session["peopleNameSorted"] == "desc")
+            {
+                people = people.OrderBy(o => o.Name).ToList();
+                Session["peopleNameSorted"] = "asc" ;
+            }
+            else if((string)Session["peopleNameSorted"] == "asc")
+            {
+                people = people.OrderByDescending(o => o.Name).ToList();
+                Session["peopleNameSorted"] = "desc";
+            }
+            Session["people"] = people;
+            return RedirectToAction("People", "Home");
+        }
+
+        public ActionResult SortByCity()
+        {
+            List<Person> people = (List<Person>)Session["people"];
+            if (Session["peopleCitySorted"] == null || (string)Session["peopleCitySorted"] == "desc")
+            {
+                people = people.OrderBy(o => o.City).ToList();
+                Session["peopleCitySorted"] = "asc";
+            }
+            else if ((string)Session["peopleCitySorted"] == "asc")
+            {
+                people = people.OrderByDescending(o => o.City).ToList();
+                Session["peopleCitySorted"] = "desc";
+            }
+            Session["people"] = people;
+            return RedirectToAction("People", "Home");
+        }
+
+        public ActionResult DeletePerson(int id)
+        {
+
+            List<Person> people = (List<Person>)Session["people"];
+
+            //people.RemoveAt(id);
+            people = people.Where(x => x.Id != id).ToList();
+            
+            Session["people"] = people;
+
+            return RedirectToAction("People", "Home");
+        }
+
 
         // GET: People
         [HttpGet]
         public ActionResult People()
         {
             List<Person> people = new List<Person>();
-                people.Add(new Person { Id = 1, Name = "Nisse", PhoneNumber = "0736-12345677", City = "Växjö" });
-                people.Add(new Person { Id = 2, Name = "Lasse", PhoneNumber = "0708-8888888", City = "Stockholm" });
-                people.Add(new Person { Id = 3, Name = "Andreas", PhoneNumber = "0736-14151617", City = "Alvesta" });
-
-            Session["people"] = people;
+            if (Session["people"] == null)
+            {
+                people.Add(new Person { Id = 0, Name = "Nisse", PhoneNumber = "0736-12345677", City = "Växjö" });
+                people.Add(new Person { Id = 1, Name = "Lasse", PhoneNumber = "0708-8888888", City = "Stockholm" });
+                people.Add(new Person { Id = 2, Name = "Andreas", PhoneNumber = "0736-14151617", City = "Alvesta" });
+                Session["people"] = people;
+            }
+            else if (Session["peopleSearchResult"] != null)
+            {
+                people = (List<Person>)Session["peopleSearchResult"];
+                ViewBag.SearchResultMessage = "Search result for: " + Session["peopleSearchString"];
+                Session["peopleSearchResult"] = null;
+                Session["peopleSearchString"] = null;
+            }
+            else
+            {
+                people = (List<Person>)Session["people"];
+            }            
             return View(people);
         }
 
