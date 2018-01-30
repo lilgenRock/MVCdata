@@ -16,18 +16,24 @@ namespace MVCassignment2.Models
         public string City { get; set; }
 
 
-      /*  public static bool LookForSearchString(string s)
+        public static List<Person> AddPerson(List<Person> people, string Name, string PhoneNumber, string City)
         {
-            if ((s.Contains() > 5) &&
-                       (s.Substring(s.Length - 6).ToLower() == "saurus"))
+            int newId = 0;
+            if (Name != "" && Name != null)
             {
-                return true;
+                if (people.Count > 0)        // if people exist in list find the largest id and give new person that value + 1
+                {
+                    newId = people.Max(p => p.Id) + 1;
+                }
+                people.Add(new Person
+                {
+                    Id = newId,
+                    Name = Name,
+                    PhoneNumber = PhoneNumber,
+                    City = City
+                });
             }
-            else
-            {
-                return false;
-            }
+            return people;
         }
-        */
     }
 }

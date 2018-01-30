@@ -36,38 +36,21 @@ namespace MVCassignment1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(string SearchString)
+        public ActionResult Search(string SearchString, string CaseSensitive)
         {
             List<Person> people = (List<Person>)Session["people"];
-            List<Person> peopleSearchResult = people.Where(p => p.Name.Contains(SearchString) || p.City.Contains(SearchString)).ToList();
+            List<Person> peopleSearchResult = new List<Person>();
+            if (CaseSensitive == "true")
+            {
+                peopleSearchResult = people.Where(p => p.Name.Contains(SearchString) || p.City.Contains(SearchString)).ToList();
+            }
+            else        // case doesn't matter, copmare all lowercase
+            {
+                peopleSearchResult = people.Where(p => p.Name.ToLower().Contains(SearchString.ToLower()) || p.City.ToLower().Contains(SearchString.ToLower())).ToList();
+            }            
             Session["peopleSearchResult"] = peopleSearchResult;
             Session["peopleSearchString"] = SearchString;
             return RedirectToAction("People", "Home");
-
-        }
-
-
-        [HttpPost]
-        public ActionResult People(string Name, string PhoneNumber, string City)
-        {
-            List<Person> people = (List<Person>)Session["people"];
-            int newId = 0;
-            if (Name != "" && Name != null)
-            {
-                if(people.Count > 0)        // if people exist in list find the largest id and give new person that value + 1
-                {
-                    newId = people.Max(p => p.Id) + 1;
-                }
-                people.Add(new Person
-                {
-                    Id = newId,
-                    Name = Name,
-                    PhoneNumber = PhoneNumber,
-                    City = City
-                });
-            }
-            Session["people"] = people;
-            return View(people);
         }
 
         public ActionResult SortByName()
@@ -106,17 +89,20 @@ namespace MVCassignment1.Controllers
 
         public ActionResult DeletePerson(int id)
         {
-
             List<Person> people = (List<Person>)Session["people"];
-
-            //people.RemoveAt(id);
             people = people.Where(x => x.Id != id).ToList();
-            
             Session["people"] = people;
-
             return RedirectToAction("People", "Home");
         }
 
+        [HttpPost]
+        public ActionResult People(string Name, string PhoneNumber, string City)
+        {
+            List<Person> people = (List<Person>)Session["people"];
+            people = Person.AddPerson(people, Name, PhoneNumber, City);
+            Session["people"] = people;
+            return View(people);
+        }
 
         // GET: People
         [HttpGet]
@@ -144,14 +130,6 @@ namespace MVCassignment1.Controllers
             return View(people);
         }
 
-        [HttpPost]
-        public ActionResult AddPerson(string Name, string PhoneNumber, string City)
-        {
-
-//            return RedirectToAction("People", "Home");
-            return RedirectToAction("People", "Home", new { aName=Name, aPhoneNumber=PhoneNumber, aCity=City });
-        }
-
         // GET: GuessingGame
         [HttpGet]
         public ActionResult GuessingGame()
@@ -165,7 +143,6 @@ namespace MVCassignment1.Controllers
                 Session["guessingList"] = "";
                 ViewBag.name = "Enter your name here";
             }
-
             return View(model);
         }
 
@@ -253,6 +230,5 @@ namespace MVCassignment1.Controllers
             }
             return View();
         }
-        
     }
 }
