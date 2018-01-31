@@ -1,0 +1,13 @@
+﻿@model MVCassignment2.Models.Person
+<td>
+    @Html.DisplayFor(model => Model.Name)
+</td>
+<td>
+    @Html.DisplayFor(model => Model.PhoneNumber)
+</td>
+<td>
+    @Html.DisplayFor(model => Model.City)
+</td>
+<td>
+    @Html.ActionLink("Delete", "DeletePerson", new { id = Model.Id })
+</td>

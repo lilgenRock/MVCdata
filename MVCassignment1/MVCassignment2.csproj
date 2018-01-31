@@ -130,6 +130,7 @@
     <Content Include="Views\Home\FeverCheck.cshtml" />
     <Content Include="Views\Home\GuessingGame.cshtml" />
     <Content Include="Views\Home\People.cshtml" />
+    <Content Include="Views\Home\_PersonItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
