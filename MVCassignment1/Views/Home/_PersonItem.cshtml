@@ -9,5 +9,20 @@
     @Html.DisplayFor(model => Model.City)
 </td>
 <td>
-    @Html.ActionLink("Delete", "DeletePerson", new { id = Model.Id })
+    @Html.ActionLink("Edit", "EditPerson", new { id = Model.Id }) |
+    @Html.ActionLink("Delete", "DeletePerson", new { id = Model.Id }) |
+    
+    @Ajax.ActionLink(
+        linkText:"AJAX Delete",
+        controllerName: "Home",
+        actionName: "AJAXDeletePerson",
+        ajaxOptions: new AjaxOptions
+        {
+            //OnComplete = $"getElementById('perId'" + Model.Id + " ')",
+            InsertionMode = InsertionMode.ReplaceWith,      // use replace here if not replacing hole row.
+            UpdateTargetId = $"perId" + Model.Id
+        },
+        routeValues: new { id = Model.Id },
+        htmlAttributes: new {}
+    )
 </td>

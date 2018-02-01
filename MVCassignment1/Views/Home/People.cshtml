@@ -69,7 +69,7 @@
 
         @foreach (var item in Model)
     {
-        <tr>
+        <tr id="@( "perId" + item.Id )">
             @Html.Partial("_PersonItem", item)
 
         </tr>

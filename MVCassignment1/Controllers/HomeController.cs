@@ -35,6 +35,25 @@ namespace MVCassignment1.Controllers
             return View();
         }
 
+        public ActionResult AJAXDeletePerson(int id)
+        {
+            List<Person> people = (List<Person>)Session["people"];
+            people = people.Where(x => x.Id != id).ToList();
+            Session["people"] = people;
+            return Content("");
+//            return PartialView(
+////                viewName: "People",
+//                viewName: "_PersonItem",
+//                model: people);
+
+         /*   return Json(
+                new
+                {
+                    data = 
+                })*/
+        }
+
+
         [HttpPost]
         public ActionResult Search(string SearchString, string CaseSensitive)
         {
